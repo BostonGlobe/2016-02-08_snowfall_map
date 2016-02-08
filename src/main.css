@@ -1,0 +1,48 @@
+/* =========================== */
+/* Globe font stack examples
+/* =========================== */
+/* Serif headline */
+/* font-family: 'Miller', Helvetica, Times New Roman, Times, serif;* / 
+
+/* Sans-serif headline */
+/* font-family: 'Benton', Helvetica, Arial, sans-serif; */
+/* Serif body */
+/* font-family: 'Georgia', Times New Roman, Times, serif; */
+/* Sans-serif body */
+/* font-family: 'Helvetica', Arial, sans-serif; */
+/* =========================== */
+/* Graphic styles
+/* =========================== */
+.leaflet-container .leaflet-control-attribution {
+  display: none;
+}
+#map {
+  width: 100%;
+  min-height: 320px;
+  display: block;
+  border: 1px solid #ccc;
+}
+.leaflet-marker-icon.snowfall {
+  text-align: center;
+}
+.leaflet-marker-icon.snowfall span.wrapper {
+  font-family: 'Benton', Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  color: #000;
+  text-shadow: #fff 0 0 5px;
+  position: relative;
+  top: -0.8em;
+  font-size: 1.2em;
+}
+.leaflet-marker-icon.snowfall span.wrapper._zoom7 {
+  font-size: 1.3em;
+}
+.leaflet-marker-icon.snowfall span.wrapper._zoom8 {
+  font-size: 1.4em;
+}
+.leaflet-marker-icon.snowfall span.wrapper._zoom9 {
+  font-size: 1.5em;
+}
+.leaflet-marker-icon.snowfall span.wrapper._zoom10 {
+  font-size: 1.6em;
+}
