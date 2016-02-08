@@ -6,6 +6,8 @@
 	let data;
 	let markersLayer;
 
+	const scale = [{ 'amount': 1, 'hex': '#bacce3' }, { 'amount': 2, 'hex': '#b5c6df' }, { 'amount': 4, 'hex': '#adb7d8' }, { 'amount': 6, 'hex': '#a5aad0' }, { 'amount': 8, 'hex': '#9f9cc8' }, { 'amount': 10, 'hex': '#998cbf' }, { 'amount': 15, 'hex': '#8a69a8' }, { 'amount': 20, 'hex': '#7a468c' }, { 'amount': 25, 'hex': '#65246d' }, { 'amount': 30, 'hex': '#4d004b' }];
+
 	// called once on page load
 	const init = function () {
 		setupMap();
@@ -18,7 +20,7 @@
 
 	const loadData = function () {
 		const el = document.createElement('script');
-		el.setAttribute('src', 'temp/snowfall_scraper.jsonp');
+		el.setAttribute('src', 'https://www.bostonglobe.com/partners/snowfallscraper/snowfall_scraper.json');
 		document.body.appendChild(el);
 	};
 
@@ -34,13 +36,14 @@
 		}
 	};
 
-	// graphic code
 	const setupMap = function () {
 
 		L.mapbox.accessToken = 'pk.eyJ1IjoiZ2FicmllbC1mbG9yaXQiLCJhIjoiVldqX21RVSJ9.Udl7GDHMsMh8EcMpxIr2gA';
 		map = L.mapbox.map('map', 'gabriel-florit.36cf07a4', {
 			attributionControl: false,
 			scrollWheelZoom: false,
+			minZoom: 7,
+			maxZoom: 10,
 			maxBounds: [[24, -93], [51, -60]]
 		});
 
@@ -82,6 +85,8 @@
 
 	const addMarkersToMap = function (zoom) {
 
+		const max = getMax(data);
+
 		var iconDimensions = getIconDimensions(zoom);
 
 		var ICON_WIDTH = iconDimensions.width;
@@ -122,19 +127,24 @@
 				return intersectRect(pointBBox, markerBBox);
 			});
 
+			// overlaps = false;
 			// if it doesn't overlap, add to markers layer
 			if (!overlaps) {
 
-				var icon = L.divIcon({
-					html: '<span class="wrapper _zoom' + zoom + '"><span class="label">' + point['Amount'] + '”</span></span>',
-					className: 'snowfall'
-				});
+				var hex = getHexFromAmount(point['Amount']);
 
-				var marker = L.marker([point['Latitude'], point['Longitude']], {
-					icon: icon,
-					clickable: false
-				});
-				markers.push(marker);
+				if (hex) {
+					var icon = L.divIcon({
+						html: `<span class="wrapper _zoom${ zoom }"><span class="label" style="color:${ hex };">${ point['Amount'] }”</span></span>`,
+						className: 'snowfall'
+					});
+
+					var marker = L.marker([point['Latitude'], point['Longitude']], {
+						icon: icon,
+						clickable: false
+					});
+					markers.push(marker);
+				}
 			}
 		});
 
@@ -145,6 +155,20 @@
 		markersLayer = L.layerGroup(markers);
 
 		markersLayer.addTo(map);
+	};
+
+	const getMax = function (arr) {
+		return arr.reduce((previous, current) => {
+			return current['Amount'] > previous ? current['Amount'] : previous;
+		}, 0);
+	};
+
+	const getHexFromAmount = function (amount) {
+		const filtered = scale.filter(el => amount >= el.amount);
+		if (filtered.length) {
+			return filtered[filtered.length - 1].hex;
+		}
+		return null;
 	};
 
 	window.snowfall_scraper = function (response) {
@@ -158,37 +182,37 @@
 		});
 
 		addMarkersToMap(map.getZoom());
-
-		// const geojson = createGeoJSON(clean);
-
-		// var gj = L.geoJson(geojson, {
-		//   		pointToLayer: function(feature, ll) {
-		//       		return L.marker(ll, {
-		//           		icon: L.divIcon({
-		//                	className: 'label',
-		//                	html: feature.properties.title
-		//            	})
-		//       		});
-		//   		}
-		// }).addTo(map);
 	};
 
-	const createGeoJSON = function (data) {
-		const geojson = data.map(el => {
-			return {
-				'type': 'Feature',
-				'geometry': {
-					'type': 'Point',
-					'coordinates': [el['Longitude'], el['Latitude']]
-				},
-				'properties': {
-					'title': el['Amount']
-				}
-			};
-		});
+	// const createGeoJSON = function(data) {
+	// 	const geojson = data.map(el => {
+	// 		return {
+	// 			'type': 'Feature',
+	// 			'geometry': {
+	// 				'type': 'Point',
+	// 				'coordinates': [el['Longitude'], el['Latitude']],
+	// 			},
+	// 			'properties': {
+	// 				'title': el['Amount']
+	// 			}
+	// 		};
+	// 	});
 
-		return geojson;
-	};
+	// 	return geojson;
+	// };
+
+	// const geojson = createGeoJSON(clean);
+
+	// var gj = L.geoJson(geojson, {
+	//   		pointToLayer: function(feature, ll) {
+	//       		return L.marker(ll, {
+	//           		icon: L.divIcon({
+	//                	className: 'label',
+	//                	html: feature.properties.title
+	//            	})
+	//       		});
+	//   		}
+	// }).addTo(map);
 
 	// run code
 	init();

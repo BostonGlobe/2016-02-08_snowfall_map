@@ -36,19 +36,73 @@
 		font-family 'Benton', Helvetica, Arial, sans-serif;
 		font-weight bold
 		color black
-		text-shadow white 0 0 5px
+		text-shadow #fff 0 0 4px
 		position relative
-		top -0.8em
+		top -0.6em
 		font-size 1.2em
 		
 		&._zoom7
 			font-size 1.3em
+			top -0.65em
 			
 		&._zoom8
 			font-size 1.4em
+			top -0.7em
 			
 		&._zoom9
 			font-size 1.5em
+			top -0.75em
 			
 		&._zoom10
 			font-size 1.6em
+			top -0.8em
+
+.legend
+		font-family 'Benton', Helvetica, Arial, sans-serif
+		font-size 0.9em
+		max-width 20em
+
+		p
+			span
+				font-weight bold
+
+		ul
+			width 100%
+			overflow hidden
+			list-style-type none
+
+			li
+				float left
+				width 25%
+				font-size 0.8em
+
+				&.odd
+					display none
+				
+
+				@media(min-width: 30em)
+					width 10%
+
+					&.odd
+						display block
+					
+			&.colors li
+				height 0.55em
+			
+			&.numbers li
+				text-align center
+				position relative
+
+				&:nth-child(1)
+					text-align left
+					span
+						left 0
+					
+				span
+					// @include adjust-font-size-to(13px);
+					position relative
+					left -50%
+					
+				
+			&.numbers .units
+				display none

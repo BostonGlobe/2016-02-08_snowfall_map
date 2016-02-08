@@ -29,20 +29,73 @@
   font-family: 'Benton', Helvetica, Arial, sans-serif;
   font-weight: bold;
   color: #000;
-  text-shadow: #fff 0 0 5px;
+  text-shadow: #fff 0 0 4px;
   position: relative;
-  top: -0.8em;
+  top: -0.6em;
   font-size: 1.2em;
 }
 .leaflet-marker-icon.snowfall span.wrapper._zoom7 {
   font-size: 1.3em;
+  top: -0.65em;
 }
 .leaflet-marker-icon.snowfall span.wrapper._zoom8 {
   font-size: 1.4em;
+  top: -0.7em;
 }
 .leaflet-marker-icon.snowfall span.wrapper._zoom9 {
   font-size: 1.5em;
+  top: -0.75em;
 }
 .leaflet-marker-icon.snowfall span.wrapper._zoom10 {
   font-size: 1.6em;
+  top: -0.8em;
+}
+.legend {
+  font-family: 'Benton', Helvetica, Arial, sans-serif;
+  font-size: 0.9em;
+  max-width: 20em;
+}
+.legend p span {
+  font-weight: bold;
+}
+.legend ul {
+  width: 100%;
+  overflow: hidden;
+  list-style-type: none;
+}
+.legend ul li {
+  float: left;
+  width: 25%;
+  font-size: 0.8em;
+}
+.legend ul li.odd {
+  display: none;
+}
+@media (min-width: 30em) {
+  .legend ul li {
+    width: 10%;
+  }
+  .legend ul li.odd {
+    display: block;
+  }
+}
+.legend ul.colors li {
+  height: 0.55em;
+}
+.legend ul.numbers li {
+  text-align: center;
+  position: relative;
+}
+.legend ul.numbers li:nth-child(1) {
+  text-align: left;
+}
+.legend ul.numbers li:nth-child(1) span {
+  left: 0;
+}
+.legend ul.numbers li span {
+  position: relative;
+  left: -50%;
+}
+.legend ul.numbers .units {
+  display: none;
 }
