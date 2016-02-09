@@ -2,14 +2,14 @@
 
 (function () {
 	// global variables
-	let map;
-	let data;
-	let markersLayer;
+	var map = undefined;
+	var data = undefined;
+	var markersLayer = undefined;
 
-	const scale = [{ 'amount': 1, 'hex': '#bacce3' }, { 'amount': 2, 'hex': '#b5c6df' }, { 'amount': 4, 'hex': '#adb7d8' }, { 'amount': 6, 'hex': '#a5aad0' }, { 'amount': 8, 'hex': '#9f9cc8' }, { 'amount': 10, 'hex': '#998cbf' }, { 'amount': 15, 'hex': '#8a69a8' }, { 'amount': 20, 'hex': '#7a468c' }, { 'amount': 25, 'hex': '#65246d' }, { 'amount': 30, 'hex': '#4d004b' }];
+	var scale = [{ 'amount': 1, 'hex': '#bacce3' }, { 'amount': 2, 'hex': '#b5c6df' }, { 'amount': 4, 'hex': '#adb7d8' }, { 'amount': 6, 'hex': '#a5aad0' }, { 'amount': 8, 'hex': '#9f9cc8' }, { 'amount': 10, 'hex': '#998cbf' }, { 'amount': 15, 'hex': '#8a69a8' }, { 'amount': 20, 'hex': '#7a468c' }, { 'amount': 25, 'hex': '#65246d' }, { 'amount': 30, 'hex': '#4d004b' }];
 
 	// called once on page load
-	const init = function () {
+	var init = function init() {
 		setupMap();
 		setHeight();
 		loadData();
@@ -18,13 +18,13 @@
 	// called automatically on page resize
 	window.onPymParentResize = function (width) {};
 
-	const loadData = function () {
-		const el = document.createElement('script');
+	var loadData = function loadData() {
+		var el = document.createElement('script');
 		el.setAttribute('src', 'https://www.bostonglobe.com/partners/snowfallscraper/snowfall_scraper.json');
 		document.body.appendChild(el);
 	};
 
-	const setHeight = function () {
+	var setHeight = function setHeight() {
 		if (window.pymChild) {
 			window.pymChild.sendMessage('height-request', true);
 			window.pymChild.onMessage('height-send', function (msg) {
@@ -36,7 +36,9 @@
 		}
 	};
 
-	const setupMap = function () {
+	var setupMap = function setupMap() {
+
+		var defaultZoom = window.innerWidth < 640 ? 7 : 8;
 
 		L.mapbox.accessToken = 'pk.eyJ1IjoiZ2FicmllbC1mbG9yaXQiLCJhIjoiVldqX21RVSJ9.Udl7GDHMsMh8EcMpxIr2gA';
 		map = L.mapbox.map('map', 'gabriel-florit.36cf07a4', {
@@ -47,14 +49,14 @@
 			maxBounds: [[24, -93], [51, -60]]
 		});
 
-		map.setView([42.25, -71.82], 7);
+		map.setView([42.25, -71.82], defaultZoom);
 
 		map.on('zoomend', function (e) {
 			addMarkersToMap(map.getZoom());
 		});
 	};
 
-	const getIconDimensions = function (zoom) {
+	var getIconDimensions = function getIconDimensions(zoom) {
 		return {
 			6: {
 				width: 34,
@@ -79,13 +81,13 @@
 		}[zoom];
 	};
 
-	const intersectRect = function (r1, r2) {
+	var intersectRect = function intersectRect(r1, r2) {
 		return !(r2.left > r1.right || r2.right < r1.left || r2.top > r1.bottom || r2.bottom < r1.top);
 	};
 
-	const addMarkersToMap = function (zoom) {
+	var addMarkersToMap = function addMarkersToMap(zoom) {
 
-		const max = getMax(data);
+		var max = getMax(data);
 
 		var iconDimensions = getIconDimensions(zoom);
 
@@ -98,11 +100,17 @@
 		// find the absolute pixel coordinates for the given zoom level
 		// assuming we're center aligning the point,
 		// find the point's bounding box in pixel coordinates
-		const byLat = data.sort((a, b) => b['Latitude'] - a['Latitude']);
-		const byLng = data.sort((a, b) => a['Longitude'] - b['Longitude']);
-		const byAmount = data.sort((a, b) => b['Amount'] - a['Amount']);
+		var byLat = data.sort(function (a, b) {
+			return b['Latitude'] - a['Latitude'];
+		});
+		var byLng = data.sort(function (a, b) {
+			return a['Longitude'] - b['Longitude'];
+		});
+		var byAmount = data.sort(function (a, b) {
+			return b['Amount'] - a['Amount'];
+		});
 
-		byAmount.map((point, index) => {
+		byAmount.map(function (point, index) {
 			var pointCoords = map.project([point['Latitude'], point['Longitude']]);
 
 			var pointBBox = {
@@ -135,7 +143,7 @@
 
 				if (hex) {
 					var icon = L.divIcon({
-						html: `<span class="wrapper _zoom${ zoom }"><span class="label" style="color:${ hex };">${ point['Amount'] }”</span></span>`,
+						html: '<span class="wrapper _zoom' + zoom + '"><span class="label" style="color:' + hex + ';">' + point['Amount'] + '”</span></span>',
 						className: 'snowfall'
 					});
 
@@ -157,14 +165,16 @@
 		markersLayer.addTo(map);
 	};
 
-	const getMax = function (arr) {
-		return arr.reduce((previous, current) => {
+	var getMax = function getMax(arr) {
+		return arr.reduce(function (previous, current) {
 			return current['Amount'] > previous ? current['Amount'] : previous;
 		}, 0);
 	};
 
-	const getHexFromAmount = function (amount) {
-		const filtered = scale.filter(el => amount >= el.amount);
+	var getHexFromAmount = function getHexFromAmount(amount) {
+		var filtered = scale.filter(function (el) {
+			return amount >= el.amount;
+		});
 		if (filtered.length) {
 			return filtered[filtered.length - 1].hex;
 		}
@@ -172,9 +182,9 @@
 	};
 
 	window.snowfall_scraper = function (response) {
-		const dataset = 'climate';
+		var dataset = 'climate';
 
-		data = response[dataset].map(el => {
+		data = response[dataset].map(function (el) {
 			el['Latitude'] = parseFloat(el['Latitude']);
 			el['Longitude'] = parseFloat(el['Longitude']);
 			el['Amount'] = parseFloat(el['Amount']);

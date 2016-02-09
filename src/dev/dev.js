@@ -50,6 +50,8 @@
 
 	const setupMap = function() {
 
+		const defaultZoom = window.innerWidth < 640 ? 7 : 8;
+
 		L.mapbox.accessToken = 'pk.eyJ1IjoiZ2FicmllbC1mbG9yaXQiLCJhIjoiVldqX21RVSJ9.Udl7GDHMsMh8EcMpxIr2gA';
 		map = L.mapbox.map('map', 'gabriel-florit.36cf07a4', {
 			attributionControl: false,
@@ -62,7 +64,7 @@
 			]
 		});
 
-		map.setView([42.25, -71.82], 7);
+		map.setView([42.25, -71.82], defaultZoom);
 
 		map.on('zoomend', function(e) {
 			addMarkersToMap(map.getZoom());
