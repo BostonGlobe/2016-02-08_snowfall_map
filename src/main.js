@@ -141,9 +141,10 @@
 
 				var hex = getHexFromAmount(point['Amount']);
 
+				// console.log(point);
 				if (hex) {
 					var icon = L.divIcon({
-						html: '<span class="wrapper _zoom' + zoom + '"><span class="label" style="color:' + hex + ';">' + point['Amount'] + '”</span></span>',
+						html: '<span class="wrapper _zoom' + zoom + '"><span class="label">' + point['Amount'] + '”</span></span>',
 						className: 'snowfall'
 					});
 
@@ -183,6 +184,14 @@
 
 	window.snowfall_scraper = function (response) {
 		var dataset = 'climate';
+		var updated = new Date(response.updated);
+
+		var timeString = updated.toLocaleTimeString();
+		var timeSplit = timeString.split(':');
+		var ampm = timeSplit[2].split(' ');
+
+		var updatedString = updated.toLocaleDateString() + ' ' + timeSplit[0] + ':' + timeSplit[1] + ' ' + ampm[1];
+		document.querySelector('.updated').textContent = 'Last updated ' + updatedString;
 
 		data = response[dataset].map(function (el) {
 			el['Latitude'] = parseFloat(el['Latitude']);
@@ -193,36 +202,6 @@
 
 		addMarkersToMap(map.getZoom());
 	};
-
-	// const createGeoJSON = function(data) {
-	// 	const geojson = data.map(el => {
-	// 		return {
-	// 			'type': 'Feature',
-	// 			'geometry': {
-	// 				'type': 'Point',
-	// 				'coordinates': [el['Longitude'], el['Latitude']],
-	// 			},
-	// 			'properties': {
-	// 				'title': el['Amount']
-	// 			}
-	// 		};
-	// 	});
-
-	// 	return geojson;
-	// };
-
-	// const geojson = createGeoJSON(clean);
-
-	// var gj = L.geoJson(geojson, {
-	//   		pointToLayer: function(feature, ll) {
-	//       		return L.marker(ll, {
-	//           		icon: L.divIcon({
-	//                	className: 'label',
-	//                	html: feature.properties.title
-	//            	})
-	//       		});
-	//   		}
-	// }).addTo(map);
 
 	// run code
 	init();
