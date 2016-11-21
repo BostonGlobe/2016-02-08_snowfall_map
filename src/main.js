@@ -51,6 +51,15 @@
 
 		map.setView([42.25, -71.82], defaultZoom);
 
+		// we came up with these after much tweaking
+		var customBounds = [
+			[21.1, -83],
+			[49.65, -66]
+		];
+
+		// Add the snowfall image to the map.
+		var imageLayer = L.imageOverlay('http://localhost:3003/output.png', customBounds).addTo(map);
+
 		map.on('zoomend', function (e) {
 			addMarkersToMap(map.getZoom());
 		});
