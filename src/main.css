@@ -22,6 +22,11 @@
   display: block;
   border: 1px solid #ccc;
 }
+
+.leaflet-overlay-pane {
+	z-index: 1;
+}
+
 .leaflet-marker-icon.snowfall {
   text-align: center;
   cursor: inherit;
