@@ -6,7 +6,19 @@
 	var data = undefined;
 	var markersLayer = undefined;
 
-	var scale = [{ 'amount': 1, 'hex': '#bacce3' }, { 'amount': 2, 'hex': '#b5c6df' }, { 'amount': 4, 'hex': '#adb7d8' }, { 'amount': 6, 'hex': '#a5aad0' }, { 'amount': 8, 'hex': '#9f9cc8' }, { 'amount': 10, 'hex': '#998cbf' }, { 'amount': 15, 'hex': '#8a69a8' }, { 'amount': 20, 'hex': '#7a468c' }, { 'amount': 25, 'hex': '#65246d' }, { 'amount': 30, 'hex': '#4d004b' }];
+	var scale = [
+		{ 'amount': 0.1, 'hex': '#DDE6F1' },
+		{ 'amount': 1, 'hex': '#bacce3' },
+		{ 'amount': 2, 'hex': '#b5c6df' },
+		{ 'amount': 4, 'hex': '#adb7d8' },
+		{ 'amount': 6, 'hex': '#a5aad0' },
+		{ 'amount': 8, 'hex': '#9f9cc8' },
+		{ 'amount': 10, 'hex': '#998cbf' },
+		{ 'amount': 15, 'hex': '#8a69a8' },
+		{ 'amount': 20, 'hex': '#7a468c' },
+		{ 'amount': 25, 'hex': '#65246d' },
+		{ 'amount': 30, 'hex': '#4d004b' }
+	];
 
 	// called once on page load
 	var init = function init() {
@@ -150,7 +162,6 @@
 
 				var hex = getHexFromAmount(point['Amount']);
 
-				// console.log(point);
 				if (hex) {
 					var icon = L.divIcon({
 						html: '<span class="wrapper _zoom' + zoom + '"><span class="label">' + point['Amount'] + '”</span></span>',
