@@ -23,6 +23,27 @@
   border: 1px solid #ccc;
 }
 
+.map-and-legend {
+	position: relative;
+}
+
+.map-and-legend .legend {
+	position: absolute;
+	top: 0.75em;
+	right: 0.75em;
+	z-index: 10;
+	background: white;
+	min-width: 17em;
+	border: 1px solid #999;
+	border-radius: 3px;
+	padding: 0.25em 0.75em;
+}
+@media (min-width: 30em) {
+	.map-and-legend .legend {
+		min-width: 25em;
+	}
+}
+
 .leaflet-overlay-pane {
 	z-index: 1;
 }
@@ -61,7 +82,7 @@
   font-family: 'Benton', Helvetica, Arial, sans-serif;
   font-size: 0.9em;
   max-width: 25em;
-  display: none;
+  /* display: none; */
 }
 .legend p span {
   font-weight: bold;
@@ -81,7 +102,7 @@
 }
 @media (min-width: 30em) {
   .legend ul li {
-    width: 10%;
+    width: 9%;
   }
   .legend ul li.odd {
     display: block;
