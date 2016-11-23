@@ -70,7 +70,7 @@
 		];
 
 		// Add the snowfall image to the map.
-		var imageLayer = L.imageOverlay('http://localhost:3003/output.png', customBounds).addTo(map);
+		var imageLayer = L.imageOverlay('//amzncache.boston.com/partners/snow/output.png', customBounds).addTo(map);
 
 		map.on('zoomend', function (e) {
 			addMarkersToMap(map.getZoom());
